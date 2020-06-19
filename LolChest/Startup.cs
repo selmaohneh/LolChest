@@ -28,7 +28,7 @@ namespace LolChest
                 {
                     {TimeSpan.FromSeconds(1), 20},
                     {TimeSpan.FromMinutes(2), 100}
-                }, new Cache()));
+                }, new PassThroughCache()));
             builder.Services.AddSingleton<ISummonerEndpoint>(provider => provider.GetService<IRiotApi>().Summoner);
             builder.Services.AddSingleton<IMatchEndpoint>(provider => provider.GetService<IRiotApi>().Match);
         }

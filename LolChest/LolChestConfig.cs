@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 using RiotSharp.Misc;
 
@@ -18,6 +17,7 @@ namespace LolChest
             {
                 var json = Environment.GetEnvironmentVariable("SummonerNamesJson");
                 var summonerNames = JsonConvert.DeserializeObject<IEnumerable<string>>(json);
+
                 return summonerNames;
             }
         }

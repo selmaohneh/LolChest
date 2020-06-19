@@ -1,6 +1,6 @@
 ﻿using RiotSharp.Endpoints.MatchEndpoint;
 
-namespace LolChest.Console
+namespace LolChest
 {
     public class Kda
     {

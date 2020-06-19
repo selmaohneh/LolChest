@@ -1,7 +1,7 @@
 ﻿using System;
 using RiotSharp.Endpoints.MatchEndpoint;
 
-namespace LolChest.Console
+namespace LolChest
 {
     public class PlayerStats
     {
@@ -28,10 +28,15 @@ namespace LolChest.Console
 
             if (won)
             {
-                return (decimal) basePenality;
+                return RoundTo2Digits(basePenality);
             }
 
-            return (decimal) (1.5 * basePenality);
+            return RoundTo2Digits(1.5 * basePenality);
+        }
+
+        private decimal RoundTo2Digits(double value)
+        {
+            return Math.Round((decimal)value, 2);
         }
     }
 }

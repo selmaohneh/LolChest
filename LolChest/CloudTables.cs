@@ -11,7 +11,7 @@ namespace LolChest
 
         public CloudTables()
         {
-            var connectionString = Environment.GetEnvironmentVariable("ConnectionString");
+            var connectionString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
             _tableClient = storageAccount.CreateCloudTableClient();
         }
