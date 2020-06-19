@@ -6,6 +6,8 @@ The formula for that penalty is `Deaths / (Kills + Assists + 1) * GameDurationIn
 
 Since I am way too lazy to calculate the penalties for all my friends manually after each game, I programmed **LolChest**. **LolChest** periodically polls the statistics of the games we played together from the Riot Games API and calculates the penalties for each participant. The data is stored in a table for further use, i.e. I made a little HTTP endpoint where we can see the recent results and summed up penalties of each month.
 
+![](standing.PNG)
+
 This piggy bank was kind of always the first project I solved when dipping into a new technology. This time, by going serverless with Azure Functions, it might have been the last time :-)
 
 ## Thoughts / Learnings
