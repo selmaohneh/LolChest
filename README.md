@@ -1,4 +1,7 @@
 # LolChest
+
+A serverless piggy bank for League of Legends.
+
 ## Introduction
 My friends and me have a piggy bank to save up some money for a vacation, a concert or just some beer. :-) To get some money into it we play League of Legends. We defined a penalty depending on how well (or bad) each of us performed during a game. 
 
