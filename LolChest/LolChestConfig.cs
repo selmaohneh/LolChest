@@ -24,5 +24,19 @@ namespace LolChest
 
         public Region Region => Enum.Parse<Region>(Environment.GetEnvironmentVariable("Region"));
         public string ApiKey => Environment.GetEnvironmentVariable("ApiKey");
+
+        public string GooglePassword => Environment.GetEnvironmentVariable("GooglePassword");
+        public string SenderAddress => Environment.GetEnvironmentVariable("SenderAddress");
+
+        public IEnumerable<string> ReceiverAddresses
+        {
+            get
+            {
+                var json = Environment.GetEnvironmentVariable("ReceiverAddresses");
+
+                var addresses = JsonConvert.DeserializeObject<IEnumerable<string>>(json);
+                return addresses;
+            }
+        }
     }
 }

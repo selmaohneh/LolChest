@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
+using MailKit.Net.Smtp;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using RiotSharp;
@@ -22,13 +23,14 @@ namespace LolChest
         {
             builder.Services.AddSingleton<CloudTables>();
             builder.Services.AddSingleton<LolChestConfig>();
+            builder.Services.AddTransient<ISmtpClient>(provider => new SmtpClient());
+
+            var cd = new ConcurrentDictionary<TimeSpan, int>();
+            cd.AddOrUpdate(TimeSpan.FromSeconds(1), span => 20, (span, i) => i);
+            cd.AddOrUpdate(TimeSpan.FromSeconds(2), span => 100, (span, i) => i);
 
             builder.Services.AddSingleton<IRiotApi>(provider => RiotApi.GetInstance(
-                provider.GetService<LolChestConfig>().ApiKey, new Dictionary<TimeSpan, int>
-                {
-                    {TimeSpan.FromSeconds(1), 20},
-                    {TimeSpan.FromMinutes(2), 100}
-                }, new PassThroughCache()));
+                provider.GetService<LolChestConfig>().ApiKey, cd, new PassThroughCache()));
             builder.Services.AddSingleton<ISummonerEndpoint>(provider => provider.GetService<IRiotApi>().Summoner);
             builder.Services.AddSingleton<IMatchEndpoint>(provider => provider.GetService<IRiotApi>().Match);
         }

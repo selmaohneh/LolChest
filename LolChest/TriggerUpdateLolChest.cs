@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 
 namespace LolChest
@@ -13,7 +15,7 @@ namespace LolChest
     {
         [FunctionName("TriggerUpdateLolChest")]
         public static Task Run(
-            [TimerTrigger("0 */15 * * * *")] TimerInfo timer,
+            [TimerTrigger("0 */15 * * * *")] TimerInfo myTimer,
             [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
