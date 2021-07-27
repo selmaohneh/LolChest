@@ -56,7 +56,7 @@ namespace LolChest.Core
 
             foreach (string summonerId in summonerIds)
             {
-                IEnumerable<string> matchIds = await _riotGamesApi.MatchV5().GetMatchIdsByPUUIDAsync(regionalRoute, summonerId, 100);
+                IEnumerable<string> matchIds = await _riotGamesApi.MatchV5().GetMatchIdsByPUUIDAsync(regionalRoute, summonerId);
                 recentMatchesIds.AddRange(matchIds);
             }
 
