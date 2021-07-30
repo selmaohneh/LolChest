@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Camille.Enums;
 using Camille.RiotGames;
 using Camille.RiotGames.MatchV5;
 using Camille.RiotGames.SummonerV4;
-using Newtonsoft.Json;
-using Storage.Net.Blobs;
 
 namespace LolChest.Core
 {
     /// <summary>
     /// Polls the recent matches of all given summoners,
     /// converts them into a LolChest-compatible format (<see cref="SummonerResult"/>),
-    /// and saves them to the given <see cref="IBlobStorage"/>.
+    /// and saves them to the given <see cref="ISummonerResultBucket"/>.
     /// </summary>
     public class Update
     {
         private readonly IRiotGamesApi _riotGamesApi;
-        private readonly IBlobStorage _blobStorage;
+        private readonly ISummonerResultBucket _summonerResultBucket;
 
-        public Update(IRiotGamesApi riotGamesApi, IBlobStorage blobStorage)
+        public Update(IRiotGamesApi riotGamesApi, ISummonerResultBucket summonerResultBucket)
         {
             _riotGamesApi = riotGamesApi;
-            _blobStorage = blobStorage;
+            _summonerResultBucket = summonerResultBucket;
         }
 
         public async Task Execute(PlatformRoute platformRoute, RegionalRoute regionalRoute, IEnumerable<string> summonerNames)
@@ -33,8 +30,8 @@ namespace LolChest.Core
             var summonerIds = (await GetSummonerIds(platformRoute, summonerNames)).ToList();
             var recentMatchIds = await GetRecentMatchIds(regionalRoute, summonerIds);
             var recentMatches = await GetRecentMatches(regionalRoute, recentMatchIds);
-            var matchResults = ConvertToSummonerResult(recentMatches, summonerIds);
-            await SaveMatchResults(matchResults);
+            var summonerResults = ConvertToSummonerResult(recentMatches, summonerIds);
+            await SaveMatchResults(summonerResults);
         }
 
         private async Task<IEnumerable<string>> GetSummonerIds(PlatformRoute platformRoute, IEnumerable<string> summonerNames)
@@ -56,7 +53,7 @@ namespace LolChest.Core
 
             foreach (string summonerId in summonerIds)
             {
-                IEnumerable<string> matchIds = await _riotGamesApi.MatchV5().GetMatchIdsByPUUIDAsync(regionalRoute, summonerId);
+                IEnumerable<string> matchIds = await _riotGamesApi.MatchV5().GetMatchIdsByPUUIDAsync(regionalRoute, summonerId, 100);
                 recentMatchesIds.AddRange(matchIds);
             }
 
@@ -116,16 +113,7 @@ namespace LolChest.Core
         {
             foreach (SummonerResult summonerResult in summonerResults)
             {
-                string path = Path.Combine(summonerResult.GameCreation.ToString("yyyy"),
-                                           summonerResult.GameCreation.ToString("MM"),
-                                           summonerResult.GameCreation.ToString("dd"),
-                                           summonerResult.SummonerName);
-                string file = Path.Combine(path, $"{summonerResult.GameId}.lol");
-
-                string json = JsonConvert.SerializeObject(summonerResult, Formatting.Indented);
-
-                await _blobStorage.WriteTextAsync(file,
-                                                  json);
+                await _summonerResultBucket.Save(summonerResult);
             }
         }
     }

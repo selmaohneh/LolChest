@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
-using Camille.Enums;
-using EnumsNET;
-using NetBox.Extensions;
 
 namespace LolChest.Core
 {
@@ -23,6 +18,12 @@ namespace LolChest.Core
                               DateTime gameCreation)
         {
             SummonerName = summonerName;
+
+            if (SummonerName == "Holger Hodensack")
+            {
+                SummonerName = "DFF Fiesoduck";
+            }
+
             ChampionId = championId;
             Kda = kda;
             GameDuration = gameDuration;
@@ -72,8 +73,6 @@ namespace LolChest.Core
         /// </summary>
         public static IEnumerable<string> GetSummoners(this IEnumerable<SummonerResult> summonerResults)
         {
-            var validSummonerResults = summonerResults.GroupBy(x => x.GameId).Where(x => x.Count() >= 2).SelectMany(x => x);
-
             return summonerResults.Select(x => x.SummonerName).Distinct();
         }
 

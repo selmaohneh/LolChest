@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Storage.Net.Blobs;
 
 namespace LolChest.Core
 {
     public class MonthlyReport
     {
-        private readonly IBlobStorage _blobStorage;
+        private readonly ISummonerResultBucket _summonerResultBucket;
 
-        public MonthlyReport(IBlobStorage blobStorage)
+        public MonthlyReport(ISummonerResultBucket summonerResultBucket)
         {
-            _blobStorage = blobStorage;
+            _summonerResultBucket = summonerResultBucket;
         }
 
         /// <param name="month">Format: yyyy-MM</param>
         public async Task<string> Create(string month)
         {
-            List<SummonerResult> summonerResults = (await GetSummonerResultsFor(month)).ToList();
+            List<SummonerResult> summonerResults = (await _summonerResultBucket.GetForMonth(month)).ToList();
 
             summonerResults = summonerResults.GetLolChestSummonerResults().ToList();
 
@@ -51,31 +48,6 @@ namespace LolChest.Core
             str += summonerResults.Plot();
 
             return str;
-        }
-
-        private async Task<IEnumerable<SummonerResult>> GetSummonerResultsFor(string month)
-        {
-            DateTime dateTime = DateTime.Parse(month);
-            string path = Path.Combine(dateTime.ToString("yyyy"), dateTime.ToString("MM"));
-
-            var listOptions = new ListOptions
-            {
-                FilePrefix = path,
-                Recurse = true,
-            };
-
-            var summonerResults = new List<SummonerResult>();
-
-            var blobs = await _blobStorage.ListAsync(listOptions);
-
-            foreach (Blob blob in blobs)
-            {
-                string json = await _blobStorage.ReadTextAsync(blob.FullPath);
-                var summonerResult = JsonConvert.DeserializeObject<SummonerResult>(json);
-                summonerResults.Add(summonerResult);
-            }
-
-            return summonerResults;
         }
     }
 }
