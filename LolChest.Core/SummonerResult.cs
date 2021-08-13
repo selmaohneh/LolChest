@@ -24,6 +24,11 @@ namespace LolChest.Core
                 SummonerName = "DFF Fiesoduck";
             }
 
+            if (SummonerName == "Whizzmaster")
+            {
+                SummonerName = "DFF Quackerjack";
+            }
+
             ChampionId = championId;
             Kda = kda;
             GameDuration = gameDuration;
