@@ -14,7 +14,7 @@ namespace LolChest.Lambda.Update
 {
     public class Function
     {
-        public async Task FunctionHandler()
+        public async Task<string> FunctionHandler()
         {
             string riotGamesApiKey = Environment.GetEnvironmentVariable("RiotGamesApiKey");
             string awsAccessKey = Environment.GetEnvironmentVariable("AwsAccessKey");
@@ -37,7 +37,9 @@ namespace LolChest.Lambda.Update
 
             var update = new LolChest.Core.Update(riotGamesApi, bucket);
 
-            await update.Execute(parsedPlatformRoute, parsedRegionalRoute, parsedSummonerNames);
+            string lastGameCreation = await update.Execute(parsedPlatformRoute, parsedRegionalRoute, parsedSummonerNames);
+
+            return lastGameCreation;
         }
     }
 }
