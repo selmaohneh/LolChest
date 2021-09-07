@@ -17,6 +17,12 @@ namespace LolChest.Lambda.DailyReport
     {
         public async Task<string> FunctionHandler(string date)
         {
+            if (date == "automatic")
+            {
+                DateTime yesterday = DateTime.Today - TimeSpan.FromDays(1);
+                date = yesterday.ToString("yyyy-MM-dd");
+            }
+
             string awsAccessKey = Environment.GetEnvironmentVariable("AwsAccessKey");
             string awsSecretKey = Environment.GetEnvironmentVariable("AwsSecretKey");
             string awsBucketName = Environment.GetEnvironmentVariable("AwsBucketName");

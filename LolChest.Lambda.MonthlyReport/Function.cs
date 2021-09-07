@@ -17,6 +17,15 @@ namespace LolChest.Lambda.MonthlyReport
     {
         public async Task<string> FunctionHandler(string date)
         {
+            if (date == "automatic")
+            {
+                DateTime today = DateTime.Today;
+                var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+                DateTime lastDayOfLastMonth = firstDayOfMonth - TimeSpan.FromDays(1);
+
+                date = lastDayOfLastMonth.ToString("yyyy-MM");
+            }
+
             string awsAccessKey = Environment.GetEnvironmentVariable("AwsAccessKey");
             string awsSecretKey = Environment.GetEnvironmentVariable("AwsSecretKey");
             string awsBucketName = Environment.GetEnvironmentVariable("AwsBucketName");
