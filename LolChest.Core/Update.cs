@@ -86,7 +86,7 @@ namespace LolChest.Core
 
                 foreach (string summonerId in summonerIds)
                 {
-                    MatchInfoParticipant matchInfoParticipant =
+                    Participant matchInfoParticipant =
                         match.Info.Participants.SingleOrDefault(x => x.Puuid == summonerId);
 
                     if (matchInfoParticipant == null)
