@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.S3" Version="3.7.1.18" />
-    <PackageReference Include="Camille.RiotGames" Version="3.0.0-nightly-2021-07-24-14aba191c9" />
+    <PackageReference Include="Camille.RiotGames" Version="3.0.0-nightly-2021-10-13-2db3603136" />
     <PackageReference Include="Enums.NET" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="5.0.0" PrivateAssets="all" />
