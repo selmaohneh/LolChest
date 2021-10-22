@@ -82,7 +82,7 @@ namespace LolChest.Core
             foreach (Match match in matches)
             {
                 DateTime creation = DateTimeOffset.FromUnixTimeMilliseconds(match.Info.GameCreation).DateTime.AddHours(2);
-                TimeSpan duration = TimeSpan.FromMilliseconds(match.Info.GameDuration);
+                TimeSpan duration = ExtractDurationFrom(match);
 
                 foreach (string summonerId in summonerIds)
                 {
@@ -109,6 +109,18 @@ namespace LolChest.Core
             }
 
             return summonerResults;
+        }
+
+        private TimeSpan ExtractDurationFrom(Match match)
+        {
+            // official workaround as documented here:
+            // https://developer.riotgames.com/apis#match-v5/GET_getMatch
+            if (match.Info.GameEndTimestamp == null)
+            {
+                return TimeSpan.FromMilliseconds(match.Info.GameDuration);
+            }
+
+            return TimeSpan.FromSeconds(match.Info.GameDuration);
         }
 
         private async Task SaveMatchResults(IEnumerable<SummonerResult> summonerResults)
