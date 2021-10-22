@@ -32,14 +32,8 @@ namespace LolChest.Core
             var recentMatches = await GetRecentMatches(regionalRoute, recentMatchIds);
             var summonerResults = ConvertToSummonerResult(recentMatches, summonerIds).ToList();
             await SaveMatchResults(summonerResults);
-            DateTime lastGameCreation = GetLastGameCreation(summonerResults);
 
-            return $"Updated until game started at {lastGameCreation:yyyy-MM-dd HH:mm}.";
-        }
-
-        private DateTime GetLastGameCreation(IEnumerable<SummonerResult> summonerResults)
-        {
-            return summonerResults.GetLolChestSummonerResults().Max(x => x.GameCreation);
+            return summonerResults.Plot();
         }
 
         private async Task<IEnumerable<string>> GetSummonerIds(PlatformRoute platformRoute, IEnumerable<string> summonerNames)
