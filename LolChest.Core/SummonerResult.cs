@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MoreLinq;
 
 namespace LolChest.Core
 {
@@ -94,7 +95,14 @@ namespace LolChest.Core
         /// </summary>
         public static IEnumerable<SummonerResult> GetLolChestSummonerResults(this IEnumerable<SummonerResult> summonerResults)
         {
-            var lolChestSummonerResults = summonerResults.GroupBy(x => x.GameId).Where(x => x.Count() >= 2).SelectMany(x => x);
+            var lolChestSummonerResults = summonerResults.DistinctBy(x => new
+                                                          {
+                                                              x.GameId,
+                                                              x.SummonerName
+                                                          })
+                                                         .GroupBy(x => x.GameId)
+                                                         .Where(x => x.Count() >= 2)
+                                                         .SelectMany(x => x);
 
             return lolChestSummonerResults;
         }
