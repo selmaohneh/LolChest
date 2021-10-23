@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DeepEqual.Syntax;
 using MoreLinq;
 
 namespace LolChest.Core
@@ -111,7 +112,7 @@ namespace LolChest.Core
         {
             string str = String.Empty;
 
-            var groups = summonerResults.GroupBy(x => x.GameId);
+            var groups = summonerResults.GroupBy(x => x.GameId).ToList();
 
             foreach (IGrouping<string, SummonerResult> grouping in groups)
             {
@@ -129,12 +130,23 @@ namespace LolChest.Core
                     str += "Result: Defeat" + Environment.NewLine;
                 }
 
-                foreach (SummonerResult summonerResult in grouping.Select(x => x))
+                var groupedSummonerResults = grouping.Select(x => x).ToList();
+
+                foreach (SummonerResult summonerResult in groupedSummonerResults)
                 {
-                    str += summonerResult + Environment.NewLine;
+                    str += summonerResult;
+
+                    if (!summonerResult.IsDeepEqual(groupedSummonerResults.Last()))
+                    {
+                        str += Environment.NewLine;
+                    }
                 }
 
-                str += Environment.NewLine;
+                if (grouping.Key != groups.Last().Key)
+                {
+                    str += Environment.NewLine;
+                    str += Environment.NewLine;
+                }
             }
 
             return str;
