@@ -42,6 +42,15 @@ namespace LolChest.Tests
         }
 
         [TestMethod]
+        public void FirstBloodWon_CorrectPenalty()
+        {
+            SummonerResult sut = CreateSummonerResult("Whizzmaster", firstBloodParticipation: EFirstBloodParticipation.WonFirstBlood);
+
+            decimal expectedResult = Math.Round((decimal)(1.0 / (4 + 12 + 1.0) * 21.0 * 0.05 - 0.05), 2);
+            Assert.AreEqual(expectedResult, sut.GetPenalty());
+        }
+
+        [TestMethod]
         public void CorrectToString()
         {
             SummonerResult sut = CreateSummonerResult();
@@ -175,7 +184,8 @@ namespace LolChest.Tests
                                                       durationMinutes: 18,
                                                       creationYear: 2020,
                                                       creationMonth: 7,
-                                                      creationDay: 13);
+                                                      creationDay: 13,
+                                                      firstBloodParticipation: EFirstBloodParticipation.WonFirstBlood);
 
             SummonerResult sr3 = CreateSummonerResult(name: "Marge",
                                                       championId: 12,
@@ -223,7 +233,8 @@ namespace LolChest.Tests
                                                     int durationMinutes = 21,
                                                     int creationYear = 2019,
                                                     int creationMonth = 5,
-                                                    int creationDay = 13)
+                                                    int creationDay = 13,
+                                                    EFirstBloodParticipation firstBloodParticipation = EFirstBloodParticipation.NoParticipation)
         {
             return new SummonerResult(name,
                                       championId,
@@ -231,7 +242,8 @@ namespace LolChest.Tests
                                       TimeSpan.FromMinutes(durationMinutes),
                                       won,
                                       gameId,
-                                      new DateTime(creationYear, creationMonth, creationDay));
+                                      new DateTime(creationYear, creationMonth, creationDay),
+                                      firstBloodParticipation);
         }
     }
 }

@@ -96,6 +96,7 @@ namespace LolChest.Core
 
                     bool win = matchInfoParticipant.Win;
                     var kda = new Kda(matchInfoParticipant.Kills, matchInfoParticipant.Deaths, matchInfoParticipant.Assists);
+                    var firstBloodParticipation = matchInfoParticipant.FirstBloodKill || matchInfoParticipant.FirstBloodAssist;
 
                     var summonerResult = new SummonerResult(matchInfoParticipant.SummonerName,
                                                             (int)matchInfoParticipant.ChampionId,
@@ -103,7 +104,10 @@ namespace LolChest.Core
                                                             duration,
                                                             win,
                                                             match.Info.GameId.ToString(),
-                                                            creation);
+                                                            creation,
+                                                            firstBloodParticipation
+                                                                ? EFirstBloodParticipation.WonFirstBlood
+                                                                : EFirstBloodParticipation.NoParticipation);
                     summonerResults.Add(summonerResult);
                 }
             }

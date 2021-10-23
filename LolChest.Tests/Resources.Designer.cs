@@ -72,7 +72,7 @@ namespace LolChest.Tests {
         ///13.07.2020 00:00
         ///18 minutes
         ///Result: Victory
-        ///Homer (Wukong): 12/4/21 ==&gt; 0,11€
+        ///Homer (Wukong): 12/4/21 -FB ==&gt; 0,06€
         ///Bart (Vayne): 0/0/0 ==&gt; 0€.
         /// </summary>
         internal static string ExpectedPlot {

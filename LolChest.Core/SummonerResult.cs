@@ -17,7 +17,8 @@ namespace LolChest.Core
                               TimeSpan gameDuration,
                               bool won,
                               string gameId,
-                              DateTime gameCreation)
+                              DateTime gameCreation,
+                              EFirstBloodParticipation firstBloodParticipation)
         {
             SummonerName = summonerName;
 
@@ -37,6 +38,7 @@ namespace LolChest.Core
             Won = won;
             GameId = gameId;
             GameCreation = gameCreation;
+            FirstBloodParticipation = firstBloodParticipation;
         }
 
         public string GameId { get; }
@@ -46,10 +48,20 @@ namespace LolChest.Core
         public Kda Kda { get; }
         public TimeSpan GameDuration { get; }
         public bool Won { get; }
+        public EFirstBloodParticipation FirstBloodParticipation { get; }
 
         public override string ToString()
         {
-            return $"{SummonerName} ({ChampionId.GetFriendlyName()}): {Kda} ==> {this.GetPenalty()}€";
+            var str = $"{SummonerName} ({ChampionId.GetFriendlyName()}): {Kda}";
+
+            if (FirstBloodParticipation == EFirstBloodParticipation.WonFirstBlood)
+            {
+                str += " -FB";
+            }
+
+            str += $" ==> {this.GetPenalty()}€";
+
+            return str;
         }
 
         public decimal GetPenalty()
@@ -59,12 +71,17 @@ namespace LolChest.Core
                                 * GameDuration.TotalMinutes
                                 * 0.05;
 
-            if (Won)
+            if (FirstBloodParticipation == EFirstBloodParticipation.WonFirstBlood)
             {
-                return RoundTo2Digits(basePenality);
+                basePenality -= 0.05;
             }
 
-            return RoundTo2Digits(1.5 * basePenality);
+            if (!Won)
+            {
+                basePenality = 1.5 * basePenality;
+            }
+
+            return RoundTo2Digits(basePenality);
         }
 
         private static decimal RoundTo2Digits(double value)
