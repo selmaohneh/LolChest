@@ -125,6 +125,20 @@ namespace LolChest.Core
             return lolChestSummonerResults;
         }
 
+        /// <summary>
+        /// Counts the amount of unique games in the given <see cref="SummonerResult"/>.
+        /// </summary>
+        public static int CountGames(this IEnumerable<SummonerResult> summonerResults)
+        {
+            return summonerResults.DistinctBy(x => new
+                                   {
+                                       x.GameId,
+                                       x.SummonerName
+                                   })
+                                  .GroupBy(x => x.GameId)
+                                  .Count();
+        }
+
         public static string Plot(this IEnumerable<SummonerResult> summonerResults)
         {
             string str = String.Empty;
