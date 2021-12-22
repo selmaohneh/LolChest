@@ -38,6 +38,12 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddTotalAmountOfKills(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddTotalAmountOfDeaths(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddTotalAmountOfAssists(str, summonerResults);
 
             return str;
         }
@@ -56,6 +62,44 @@ namespace LolChest.Core
                 }
 
                 str += Environment.NewLine + summoner + $" --> {resultOfSingleSummoner.Sum(x => x.Kda.Kills)}";
+            }
+
+            return str;
+        }
+
+        private string AddTotalAmountOfDeaths(string str, List<SummonerResult> summonerResults)
+        {
+            str += $"Total amount of deaths: {summonerResults.Sum(x => x.Kda.Deaths)}";
+
+            foreach (string summoner in summonerResults.GetSummoners())
+            {
+                var resultOfSingleSummoner = summonerResults.Of(summoner).ToList();
+
+                if (!resultOfSingleSummoner.Any())
+                {
+                    continue;
+                }
+
+                str += Environment.NewLine + summoner + $" --> {resultOfSingleSummoner.Sum(x => x.Kda.Deaths)}";
+            }
+
+            return str;
+        }
+
+        private string AddTotalAmountOfAssists(string str, List<SummonerResult> summonerResults)
+        {
+            str += $"Total amount of assists: {summonerResults.Sum(x => x.Kda.Assists)}";
+
+            foreach (string summoner in summonerResults.GetSummoners())
+            {
+                var resultOfSingleSummoner = summonerResults.Of(summoner).ToList();
+
+                if (!resultOfSingleSummoner.Any())
+                {
+                    continue;
+                }
+
+                str += Environment.NewLine + summoner + $" --> {resultOfSingleSummoner.Sum(x => x.Kda.Assists)}";
             }
 
             return str;
