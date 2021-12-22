@@ -35,6 +35,28 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddTotalPenalty(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddTotalAmountOfKills(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddTotalAmountOfKills(string str, List<SummonerResult> summonerResults)
+        {
+            str += $"Total amount of kills: {summonerResults.Sum(x => x.Kda.Kills)}";
+
+            foreach (string summoner in summonerResults.GetSummoners())
+            {
+                var resultOfSingleSummoner = summonerResults.Of(summoner).ToList();
+
+                if (!resultOfSingleSummoner.Any())
+                {
+                    continue;
+                }
+
+                str += Environment.NewLine + summoner + $" --> {resultOfSingleSummoner.Sum(x => x.Kda.Kills)}";
+            }
 
             return str;
         }
