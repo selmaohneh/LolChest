@@ -29,6 +29,11 @@ namespace LolChest.Core
             return await GetWithPrefix(month);
         }
 
+        public async Task<IEnumerable<SummonerResult>> GetForYear(string year)
+        {
+            return await GetWithPrefix(year);
+        }
+
         public async Task Save(SummonerResult summonerResult)
         {
             var putRequest = new PutObjectRequest
