@@ -139,6 +139,27 @@ namespace LolChest.Core
                                   .Count();
         }
 
+        /// <summary>
+        /// Calculates the win rate of the given <see cref="SummonerResult"/>.
+        /// </summary>
+        public static double GetWinRate(this IEnumerable<SummonerResult> summonerResults)
+        {
+            var summonerResultList = summonerResults.ToList();
+
+            int wonGames = summonerResultList.Where(x => x.Won)
+                                             .DistinctBy(x => new
+                                              {
+                                                  x.GameId,
+                                                  x.SummonerName
+                                              })
+                                             .GroupBy(x => x.GameId)
+                                             .Count();
+
+            double winRate = wonGames / (double)CountGames(summonerResultList);
+
+            return winRate;
+        }
+
         public static string Plot(this IEnumerable<SummonerResult> summonerResults)
         {
             string str = String.Empty;

@@ -29,6 +29,28 @@ namespace LolChest.Core
             string str = $"Happy new year!\n\nI am Cello's LolChest bot. Here are some statistics for {year}:{Environment.NewLine}{Environment.NewLine}";
 
             str = AddGameCounts(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddWinRates(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddWinRates(string str, List<SummonerResult> summonerResults)
+        {
+            str += $"Total win rate: {Math.Round(summonerResults.GetWinRate() * 100, 2)}%";
+
+            foreach (string summoner in summonerResults.GetSummoners())
+            {
+                var resultOfSingleSummoner = summonerResults.Of(summoner).ToList();
+
+                if (!resultOfSingleSummoner.Any())
+                {
+                    continue;
+                }
+
+                str += Environment.NewLine + summoner + $" --> {Math.Round(resultOfSingleSummoner.GetWinRate() * 100, 2)}%";
+            }
 
             return str;
         }
@@ -48,8 +70,6 @@ namespace LolChest.Core
 
                 str += Environment.NewLine + summoner + $" --> {resultOfSingleSummoner.CountGames()}";
             }
-
-            str += Environment.NewLine;
 
             return str;
         }

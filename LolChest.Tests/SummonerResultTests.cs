@@ -137,6 +137,30 @@ namespace LolChest.Tests
         }
 
         [TestMethod]
+        public void TestWinRate()
+        {
+            SummonerResult sr1 = SummonerResultTestFactory.CreateSummonerResult("Homer", won: true, gameId: "1");
+            SummonerResult sr2 = SummonerResultTestFactory.CreateSummonerResult("Homer", won: true, gameId: "2");
+            SummonerResult sr3 = SummonerResultTestFactory.CreateSummonerResult("Homer", won: false, gameId: "3");
+            SummonerResult sr4 = SummonerResultTestFactory.CreateSummonerResult("Marge", won: true, gameId: "1");
+            SummonerResult sr5 = SummonerResultTestFactory.CreateSummonerResult("Marge", won: true, gameId: "2");
+            SummonerResult sr6 = SummonerResultTestFactory.CreateSummonerResult("Bart", won: false, gameId: "3");
+
+            var summonerResults = new List<SummonerResult>
+            {
+                sr1,
+                sr2,
+                sr3,
+                sr4,
+                sr5,
+                sr6,
+            };
+
+            double winRate = summonerResults.GetWinRate();
+            Assert.AreEqual(2 / 3.0, winRate);
+        }
+
+        [TestMethod]
         public void TestCountGames()
         {
             SummonerResult sr1 = SummonerResultTestFactory.CreateSummonerResult("Homer", won: true, gameId: "1");
