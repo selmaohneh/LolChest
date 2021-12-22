@@ -32,6 +32,17 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddWinRates(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddTotalPenalty(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddTotalPenalty(string str, List<SummonerResult> summonerResults)
+        {
+            str += $"Total income: {Math.Round(summonerResults.Sum(x => x.GetPenalty()), 2)}€";
+            str += " (" + Math.Round(summonerResults.Sum(x => x.GetPenalty()) / summonerResults.CountGames(), 2) + "€ / game)";
 
             return str;
         }
