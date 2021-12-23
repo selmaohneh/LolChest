@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LolChest.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace LolChest.Tests
 {
@@ -184,6 +185,32 @@ namespace LolChest.Tests
 
             int games = summonerResults.CountGames();
             Assert.AreEqual(4, games);
+        }
+
+        [TestMethod]
+        public void TestTotalDuration()
+        {
+            SummonerResult sr1 = SummonerResultTestFactory.CreateSummonerResult("Homer", gameId: "1", durationMinutes: 12);
+            SummonerResult sr2 = SummonerResultTestFactory.CreateSummonerResult("Homer", gameId: "2", durationMinutes: 42);
+            SummonerResult sr3 = SummonerResultTestFactory.CreateSummonerResult("Homer", gameId: "3", durationMinutes: 21);
+            SummonerResult sr4 = SummonerResultTestFactory.CreateSummonerResult("Marge", gameId: "1", durationMinutes: 12);
+            SummonerResult sr5 = SummonerResultTestFactory.CreateSummonerResult("Marge", gameId: "2", durationMinutes: 42);
+            SummonerResult sr6 = SummonerResultTestFactory.CreateSummonerResult("Bart", gameId: "3", durationMinutes: 21);
+            SummonerResult sr7 = SummonerResultTestFactory.CreateSummonerResult("Bart", gameId: "4", durationMinutes: 99);
+
+            var summonerResults = new List<SummonerResult>
+            {
+                sr1,
+                sr2,
+                sr3,
+                sr4,
+                sr5,
+                sr6,
+                sr7
+            };
+
+            TimeSpan duration = summonerResults.GetTotalDuration();
+            Assert.AreEqual(174, duration.TotalMinutes);
         }
 
         [TestMethod]

@@ -140,6 +140,18 @@ namespace LolChest.Core
         }
 
         /// <summary>
+        /// Sums the duration of all games inside the given <see cref="SummonerResult"/>.
+        /// </summary>
+        public static TimeSpan GetTotalDuration(this IEnumerable<SummonerResult> summonerResults)
+        {
+            return TimeSpan.FromSeconds(summonerResults.DistinctBy(x => new
+                                                        {
+                                                            x.GameId,
+                                                        })
+                                                       .Sum(x => x.GameDuration.TotalSeconds));
+        }
+
+        /// <summary>
         /// Calculates the win rate of the given <see cref="SummonerResult"/>.
         /// </summary>
         public static double GetWinRate(this IEnumerable<SummonerResult> summonerResults)

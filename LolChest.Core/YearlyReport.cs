@@ -28,13 +28,16 @@ namespace LolChest.Core
 
             string str = $"Happy new year!\n\nI am Cello's LolChest bot. Here are some statistics for {year}:{Environment.NewLine}{Environment.NewLine}";
 
+            str = AddTotalPenalty(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
             str = AddGameCounts(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
+            str = AddTotalDuration(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
             str = AddWinRates(str, summonerResults);
-            str += Environment.NewLine;
-            str += Environment.NewLine;
-            str = AddTotalPenalty(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddTotalAmountOfKills(str, summonerResults);
@@ -44,6 +47,30 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddTotalAmountOfAssists(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddTotalDuration(string str, List<SummonerResult> summonerResults)
+        {
+            TimeSpan duration = summonerResults.GetTotalDuration();
+            str += $"Total time played: {duration.Days} days, {duration.Hours} hours, and {duration.Minutes} minutes.";
+
+            foreach (string summoner in summonerResults.GetSummoners())
+            {
+                var resultOfSingleSummoner = summonerResults.Of(summoner).ToList();
+
+                if (!resultOfSingleSummoner.Any())
+                {
+                    continue;
+                }
+
+                TimeSpan summonerDuration = resultOfSingleSummoner.GetTotalDuration();
+
+                str += Environment.NewLine
+                     + summoner
+                     + $" --> {summonerDuration.Days} days, {summonerDuration.Hours} hours, and {summonerDuration.Minutes} minutes.";
+            }
 
             return str;
         }
