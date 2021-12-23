@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualBasic;
-using MoreLinq;
 
 namespace LolChest.Core
 {
@@ -45,9 +43,6 @@ namespace LolChest.Core
             str = AddFastestWin(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
-            str = AddFastestLoss(str, summonerResults);
-            str += Environment.NewLine;
-            str += Environment.NewLine;
             str = AddWinRates(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
@@ -70,9 +65,6 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddHighestKdaRecords(str, summonerResults);
-            str += Environment.NewLine;
-            str += Environment.NewLine;
-            str = AddLowestKdaRecords(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddPenaltyRecords(str, summonerResults);
@@ -107,22 +99,6 @@ namespace LolChest.Core
             return str;
         }
 
-        private string AddLowestKdaRecords(string str, List<SummonerResult> summonerResults)
-        {
-            double lowest = summonerResults.Min(x => x.Kda.GetSingleDigitKda());
-            var results = summonerResults.Where(x => x.Kda.GetSingleDigitKda() == lowest);
-
-            str += $"Lowest K/D/A record: {Math.Round(lowest, 2)}";
-
-            foreach (SummonerResult result in results)
-            {
-                str += Environment.NewLine;
-                str += result.ToStringWithoutPenalty();
-            }
-
-            return str;
-        }
-
         private string AddPenaltyRecords(string str, List<SummonerResult> summonerResults)
         {
             decimal most = summonerResults.Max(x => x.GetPenalty());
@@ -145,24 +121,7 @@ namespace LolChest.Core
 
             IEnumerable<SummonerResult> resultWithLongestDuration =
                 summonerResults.Where(x => x.Won).Where(x => x.GameDuration == duration).GroupBy(x => x.GameId).First();
-            str += $"Fastest win: {duration.TotalMinutes} minutes";
-
-            foreach (SummonerResult result in resultWithLongestDuration)
-            {
-                str += Environment.NewLine;
-                str += result.ToStringWithoutPenalty();
-            }
-
-            return str;
-        }
-
-        private string AddFastestLoss(string str, List<SummonerResult> summonerResults)
-        {
-            TimeSpan duration = summonerResults.Where(x => !x.Won).Min(x => x.GameDuration);
-
-            IEnumerable<SummonerResult> resultWithLongestDuration =
-                summonerResults.Where(x => !x.Won).Where(x => x.GameDuration == duration).GroupBy(x => x.GameId).First();
-            str += $"Fastest loss: {duration.TotalMinutes} minutes";
+            str += $"Fastest win: {Math.Round(duration.TotalMinutes, 0)} minutes";
 
             foreach (SummonerResult result in resultWithLongestDuration)
             {
@@ -177,7 +136,7 @@ namespace LolChest.Core
         {
             TimeSpan duration = summonerResults.Max(x => x.GameDuration);
             IEnumerable<SummonerResult> resultWithLongestDuration = summonerResults.Where(x => x.GameDuration == duration).GroupBy(x => x.GameId).First();
-            str += $"Longest game: {duration.TotalMinutes} minutes";
+            str += $"Longest game: {Math.Round(duration.TotalMinutes, 0)} minutes";
 
             foreach (SummonerResult result in resultWithLongestDuration)
             {
