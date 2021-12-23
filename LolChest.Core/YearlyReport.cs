@@ -76,6 +76,17 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddPenaltyRecords(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddMostPlayedChampion(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddMostPlayedChampion(string str, List<SummonerResult> summonerResults)
+        {
+            var playedChampions = summonerResults.Select(x => x.ChampionId).GroupBy(x => x).OrderByDescending(x => x.Count()).ToList();
+            str += $"Most played champion: {playedChampions.First().Key.GetFriendlyName()} ({playedChampions.First().Count()} times)";
 
             return str;
         }
