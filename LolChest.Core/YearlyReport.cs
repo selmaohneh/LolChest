@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MoreLinq;
 
 namespace LolChest.Core
 {
@@ -40,6 +41,12 @@ namespace LolChest.Core
             str = AddLongestGame(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
+            str = AddFastestWin(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddFastestLoss(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
             str = AddWinRates(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
@@ -63,10 +70,44 @@ namespace LolChest.Core
             return str;
         }
 
+        private string AddFastestWin(string str, List<SummonerResult> summonerResults)
+        {
+            TimeSpan duration = summonerResults.Where(x => x.Won).Min(x => x.GameDuration);
+
+            IEnumerable<SummonerResult> resultWithLongestDuration =
+                summonerResults.Where(x => x.Won).Where(x => x.GameDuration == duration).GroupBy(x => x.GameId).First();
+            str += $"Fastest win: {duration.TotalMinutes} minutes";
+
+            foreach (SummonerResult result in resultWithLongestDuration)
+            {
+                str += Environment.NewLine;
+                str += result.ToStringWithoutPenalty();
+            }
+
+            return str;
+        }
+
+        private string AddFastestLoss(string str, List<SummonerResult> summonerResults)
+        {
+            TimeSpan duration = summonerResults.Where(x => !x.Won).Min(x => x.GameDuration);
+
+            IEnumerable<SummonerResult> resultWithLongestDuration =
+                summonerResults.Where(x => !x.Won).Where(x => x.GameDuration == duration).GroupBy(x => x.GameId).First();
+            str += $"Fastest loss: {duration.TotalMinutes} minutes";
+
+            foreach (SummonerResult result in resultWithLongestDuration)
+            {
+                str += Environment.NewLine;
+                str += result.ToStringWithoutPenalty();
+            }
+
+            return str;
+        }
+
         private string AddLongestGame(string str, List<SummonerResult> summonerResults)
         {
             TimeSpan duration = summonerResults.Max(x => x.GameDuration);
-            IEnumerable<SummonerResult> resultWithLongestDuration = summonerResults.Where(x => x.GameDuration == duration);
+            IEnumerable<SummonerResult> resultWithLongestDuration = summonerResults.Where(x => x.GameDuration == duration).GroupBy(x => x.GameId).First();
             str += $"Longest game: {duration.TotalMinutes} minutes";
 
             foreach (SummonerResult result in resultWithLongestDuration)
