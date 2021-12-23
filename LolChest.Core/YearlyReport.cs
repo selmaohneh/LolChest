@@ -37,6 +37,9 @@ namespace LolChest.Core
             str = AddTotalDuration(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
+            str = AddLongestGame(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
             str = AddWinRates(str, summonerResults);
             str += Environment.NewLine;
             str += Environment.NewLine;
@@ -50,6 +53,27 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddKillRecords(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddDeathRecords(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddAssistsRecords(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddLongestGame(string str, List<SummonerResult> summonerResults)
+        {
+            TimeSpan duration = summonerResults.Max(x => x.GameDuration);
+            IEnumerable<SummonerResult> resultWithLongestDuration = summonerResults.Where(x => x.GameDuration == duration);
+            str += $"Longest game: {duration.TotalMinutes} minutes";
+
+            foreach (SummonerResult result in resultWithLongestDuration)
+            {
+                str += Environment.NewLine;
+                str += result.ToStringWithoutPenalty();
+            }
 
             return str;
         }
@@ -65,6 +89,38 @@ namespace LolChest.Core
             {
                 str += Environment.NewLine;
                 str += resultsWithMostKill.ToStringWithoutPenalty();
+            }
+
+            return str;
+        }
+
+        private string AddDeathRecords(string str, List<SummonerResult> summonerResults)
+        {
+            int mostDeaths = summonerResults.Max(x => x.Kda.Deaths);
+            var resultsWithMostDeaths = summonerResults.Where(x => x.Kda.Deaths == mostDeaths);
+
+            str += $"Most deaths record: {mostDeaths}";
+
+            foreach (SummonerResult resultsWithMostDeath in resultsWithMostDeaths)
+            {
+                str += Environment.NewLine;
+                str += resultsWithMostDeath.ToStringWithoutPenalty();
+            }
+
+            return str;
+        }
+
+        private string AddAssistsRecords(string str, List<SummonerResult> summonerResults)
+        {
+            int mostAssists = summonerResults.Max(x => x.Kda.Assists);
+            var resultsWithMostAssists = summonerResults.Where(x => x.Kda.Assists == mostAssists);
+
+            str += $"Most assists record: {mostAssists}";
+
+            foreach (SummonerResult resultsWithMostAssist in resultsWithMostAssists)
+            {
+                str += Environment.NewLine;
+                str += resultsWithMostAssist.ToStringWithoutPenalty();
             }
 
             return str;
