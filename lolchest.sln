@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LolChest.Lambda.MonthlyRepo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LolChest.Lambda.Core", "LolChest.Lambda.Core\LolChest.Lambda.Core.csproj", "{706EDCA0-EC6F-4B78-A804-37EEE23D92CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LolChest.Tests", "LolChest.Tests\LolChest.Tests.csproj", "{F9D0D233-C02C-4362-B286-4AC35C8B4509}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LolChest.Tests", "LolChest.Tests\LolChest.Tests.csproj", "{F9D0D233-C02C-4362-B286-4AC35C8B4509}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LolChest.Lambda.YearlyReport", "LolChest.Lambda.YearlyReport\LolChest.Lambda.YearlyReport.csproj", "{23685B05-F63A-4AE1-8E53-8BA9B0A4EC6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{F9D0D233-C02C-4362-B286-4AC35C8B4509}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9D0D233-C02C-4362-B286-4AC35C8B4509}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9D0D233-C02C-4362-B286-4AC35C8B4509}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23685B05-F63A-4AE1-8E53-8BA9B0A4EC6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23685B05-F63A-4AE1-8E53-8BA9B0A4EC6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23685B05-F63A-4AE1-8E53-8BA9B0A4EC6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23685B05-F63A-4AE1-8E53-8BA9B0A4EC6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
