@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic;
 using MoreLinq;
 
 namespace LolChest.Core
@@ -66,6 +67,63 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddAssistsRecords(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddHighestKdaRecords(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddLowestKdaRecords(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddPenaltyRecords(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddHighestKdaRecords(string str, List<SummonerResult> summonerResults)
+        {
+            double most = summonerResults.Max(x => x.Kda.GetSingleDigitKda());
+            var results = summonerResults.Where(x => x.Kda.GetSingleDigitKda() == most);
+
+            str += $"Highest K/D/A record: {Math.Round(most, 2)}";
+
+            foreach (SummonerResult result in results)
+            {
+                str += Environment.NewLine;
+                str += result.ToStringWithoutPenalty();
+            }
+
+            return str;
+        }
+
+        private string AddLowestKdaRecords(string str, List<SummonerResult> summonerResults)
+        {
+            double lowest = summonerResults.Min(x => x.Kda.GetSingleDigitKda());
+            var results = summonerResults.Where(x => x.Kda.GetSingleDigitKda() == lowest);
+
+            str += $"Lowest K/D/A record: {Math.Round(lowest, 2)}";
+
+            foreach (SummonerResult result in results)
+            {
+                str += Environment.NewLine;
+                str += result.ToStringWithoutPenalty();
+            }
+
+            return str;
+        }
+
+        private string AddPenaltyRecords(string str, List<SummonerResult> summonerResults)
+        {
+            decimal most = summonerResults.Max(x => x.GetPenalty());
+            var results = summonerResults.Where(x => x.GetPenalty() == most);
+
+            str += $"Highest penalty record: {Math.Round(most, 2)}€";
+
+            foreach (SummonerResult result in results)
+            {
+                str += Environment.NewLine;
+                str += result.ToStringWithoutPenalty();
+            }
 
             return str;
         }

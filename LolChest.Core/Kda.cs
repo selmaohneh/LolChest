@@ -22,5 +22,17 @@
         {
             return $"{Kills}/{Deaths}/{Assists}";
         }
+
+        public double GetSingleDigitKda()
+        {
+            int ka = Kills + Assists;
+
+            if (Deaths > 0)
+            {
+                return ka / (double)Deaths;
+            }
+
+            return ka;
+        }
     }
 }
