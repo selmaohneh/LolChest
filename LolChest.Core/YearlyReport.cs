@@ -47,6 +47,25 @@ namespace LolChest.Core
             str += Environment.NewLine;
             str += Environment.NewLine;
             str = AddTotalAmountOfAssists(str, summonerResults);
+            str += Environment.NewLine;
+            str += Environment.NewLine;
+            str = AddKillRecords(str, summonerResults);
+
+            return str;
+        }
+
+        private string AddKillRecords(string str, List<SummonerResult> summonerResults)
+        {
+            int mostKills = summonerResults.Max(x => x.Kda.Kills);
+            var resultsWithMostKills = summonerResults.Where(x => x.Kda.Kills == mostKills);
+
+            str += $"Most kills record: {mostKills}";
+
+            foreach (SummonerResult resultsWithMostKill in resultsWithMostKills)
+            {
+                str += Environment.NewLine;
+                str += resultsWithMostKill.ToStringWithoutPenalty();
+            }
 
             return str;
         }

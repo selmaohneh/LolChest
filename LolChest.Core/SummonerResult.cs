@@ -52,14 +52,21 @@ namespace LolChest.Core
 
         public override string ToString()
         {
-            var str = $"{SummonerName} ({ChampionId.GetFriendlyName()}): {Kda}";
+            string str = ToStringWithoutPenalty();
+
+            str += $" ==> {this.GetPenalty()}€";
+
+            return str;
+        }
+
+        public string ToStringWithoutPenalty()
+        {
+            string str = $"{SummonerName} ({ChampionId.GetFriendlyName()}): {Kda}";
 
             if (FirstBloodParticipation == EFirstBloodParticipation.WonFirstBlood)
             {
                 str += " -FB";
             }
-
-            str += $" ==> {this.GetPenalty()}€";
 
             return str;
         }
