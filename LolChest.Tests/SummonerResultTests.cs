@@ -25,6 +25,13 @@ namespace LolChest.Tests
         }
 
         [TestMethod]
+        public void IfNameIsBenniBuxbaum_ReplaceWithDFFDrBuxbaum()
+        {
+            SummonerResult sut = SummonerResultTestFactory.CreateSummonerResult("Benni Buxbaum");
+            Assert.AreEqual("DFF Dr Buxbaum", sut.SummonerName);
+        }
+
+        [TestMethod]
         public void Won_CorrectPenalty()
         {
             SummonerResult sut = SummonerResultTestFactory.CreateSummonerResult("Whizzmaster");
