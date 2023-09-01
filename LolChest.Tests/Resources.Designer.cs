@@ -65,14 +65,14 @@ namespace LolChest.Tests {
         ///02.03.2021 00:00
         ///78 minutes
         ///Result: Defeat
-        ///Homer (Orianna): 5/3/12 ==&gt; 0,98€
+        ///Homer (Orianna): 5/3/12 ==&gt; 0.98€
         ///Marge (Alistar): 1/0/6 ==&gt; 0€
         ///
         ///GameId: 2
         ///13.07.2020 00:00
         ///18 minutes
         ///Result: Victory
-        ///Homer (Wukong): 12/4/21 -FB ==&gt; 0,06€
+        ///Homer (Wukong): 12/4/21 -FB ==&gt; 0.06€
         ///Bart (Vayne): 0/0/0 ==&gt; 0€.
         /// </summary>
         internal static string ExpectedPlot {

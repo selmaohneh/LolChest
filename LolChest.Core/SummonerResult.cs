@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DeepEqual.Syntax;
 
@@ -58,7 +59,7 @@ namespace LolChest.Core
         {
             string str = ToStringWithoutPenalty();
 
-            str += $" ==> {this.GetPenalty()}€";
+            str += $" ==> {this.GetPenalty().ToString(CultureInfo.InvariantCulture)}€";
 
             return str;
         }

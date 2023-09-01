@@ -63,7 +63,7 @@ namespace LolChest.Tests
         {
             SummonerResult sut = SummonerResultTestFactory.CreateSummonerResult();
 
-            Assert.AreEqual("Homer Simpson (Orianna): 4/1/12 ==> 0,06€", sut.ToString());
+            Assert.AreEqual("Homer Simpson (Orianna): 4/1/12 ==> 0.06€", sut.ToString());
         }
 
         [TestMethod]
