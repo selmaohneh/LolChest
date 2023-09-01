@@ -8,9 +8,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
-    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.2.0" />
-    <PackageReference Include="AWSSDK.S3" Version="3.7.1.18" />
-    <PackageReference Include="AWSSDK.SimpleEmailV2" Version="3.7.0.46" />
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.3.1" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.203.6" />
+    <PackageReference Include="AWSSDK.SimpleEmailV2" Version="3.7.201.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LolChest.Core\LolChest.Core.csproj" />
