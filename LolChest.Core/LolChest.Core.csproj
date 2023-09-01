@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,7 +9,6 @@
     <PackageReference Include="Camille.RiotGames" Version="3.0.0-nightly-2023-08-27-1f7c420fef" />
     <PackageReference Include="DeepEqual" Version="4.2.1" />
     <PackageReference Include="Enums.NET" Version="4.0.1" />
-    <PackageReference Include="morelinq" Version="3.4.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.NETCore.Targets" Version="6.0.0-preview.4.21253.7" PrivateAssets="all" />
   </ItemGroup>

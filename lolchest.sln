@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LolChest.Console", "LolChest.Console\LolChest.Console.csproj", "{8E219B51-897C-40E5-B097-AD391B34AAA0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LolChest.Core", "LolChest.Core\LolChest.Core.csproj", "{AF553932-1A04-4041-B9B1-C4D2DC4B4DC6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LolChest.Lambda.Update", "LolChest.Lambda.Update\LolChest.Lambda.Update.csproj", "{C8E8CAE4-2B6E-403E-A5A9-81C712017A34}"
@@ -25,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8E219B51-897C-40E5-B097-AD391B34AAA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E219B51-897C-40E5-B097-AD391B34AAA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E219B51-897C-40E5-B097-AD391B34AAA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E219B51-897C-40E5-B097-AD391B34AAA0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF553932-1A04-4041-B9B1-C4D2DC4B4DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF553932-1A04-4041-B9B1-C4D2DC4B4DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF553932-1A04-4041-B9B1-C4D2DC4B4DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
