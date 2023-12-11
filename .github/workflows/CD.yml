@@ -52,4 +52,4 @@ jobs:
 
       - name: Deploy to AWS Lambda
         run: |
-          aws lambda update-function-code --function-name ${{ matrix.project }} --handler FunctionHandler --zip-file fileb://${{ matrix.project }}.zip
+          aws lambda update-function-code --function-name ${{ matrix.project }} --zip-file fileb://${{ matrix.project }}.zip
