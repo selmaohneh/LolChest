@@ -1,6 +1,6 @@
 name: Build, Test, Package and ZIP .NET 6 Lambda Functions
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
