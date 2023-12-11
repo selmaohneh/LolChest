@@ -1,28 +1,42 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+name: Build, Test, Package and ZIP .NET 6 Lambda Functions
 
-name: .NET
-
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on: [push, pull_request]
 
 jobs:
   build:
-
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: ['LolChest.Lambda.DailyReport', 'LolChest.Lambda.MonthlyReport', 'LolChest.Lambda.YearlyReport', 'LolChest.Lambda.Update']
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore ${{ matrix.project }}
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore ${{ matrix.project }}
+
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal ${{ matrix.project }}
+
+      - name: Publish
+        run: dotnet publish --configuration Release --no-build --output ./publish ${{ matrix.project }}
+        
+      - name: Create ZIP
+        run: |
+          cd ./publish
+          zip -r ../${{ matrix.project }}.zip *
+
+      - name: Upload ZIP
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.project }}
+          path: ./${{ matrix.project }}.zip
