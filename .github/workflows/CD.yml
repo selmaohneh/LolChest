@@ -5,10 +5,11 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ProjectBasePath: 'LolChest.Lambda'
     strategy:
       matrix:
-        project: ['LolChest.Lambda.DailyReport', 'LolChest.Lambda.MonthlyReport', 'LolChest.Lambda.YearlyReport', 'LolChest.Lambda.Update']
-        name: ['DailyReport', 'MonthlyReport', 'YearlyReport', 'Update']
+        project: ['DailyReport', 'MonthlyReport', 'YearlyReport', 'Update']
 
     steps:
       - name: Checkout Code
@@ -20,17 +21,17 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore ${{ matrix.project }}
+        run: dotnet restore ${{ ProjectBasePath }}.${{ matrix.project }}
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore ${{ matrix.project }}
+        run: dotnet build --configuration Release --no-restore ${{ ProjectBasePath }}.${{ matrix.project }}
 
       - name: Test
-        run: dotnet test --no-restore --verbosity normal ${{ matrix.project }}
+        run: dotnet test --no-restore --verbosity normal ${{ ProjectBasePath }}.${{ matrix.project }}
 
       - name: Publish
-        run: dotnet publish --configuration Release --no-build --output ./publish ${{ matrix.project }}
-        
+        run: dotnet publish --configuration Release --no-build --output ./publish ${{ ProjectBasePath }}.${{ matrix.project }}      
+      
       - name: Create ZIP
         run: |
           cd ./publish
@@ -51,4 +52,4 @@ jobs:
 
       - name: Deploy to AWS Lambda
         run: |
-          aws lambda update-function-code --function-name ${{ matrix.name }} --zip-file fileb://${{ matrix.project }}.zip
+          aws lambda update-function-code --function-name ${{ matrix.project }} --zip-file fileb://${{ matrix.project }}.zip
