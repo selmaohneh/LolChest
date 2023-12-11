@@ -21,16 +21,16 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore ${{ ProjectBasePath }}.${{ matrix.project }}
+        run: dotnet restore $ProjectBasePath.${{ matrix.project }}
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore ${{ ProjectBasePath }}.${{ matrix.project }}
+        run: dotnet build --configuration Release --no-restore $ProjectBasePath.${{ matrix.project }}
 
       - name: Test
-        run: dotnet test --no-restore --verbosity normal ${{ ProjectBasePath }}.${{ matrix.project }}
+        run: dotnet test --no-restore --verbosity normal $ProjectBasePath.${{ matrix.project }}
 
       - name: Publish
-        run: dotnet publish --configuration Release --no-build --output ./publish ${{ ProjectBasePath }}.${{ matrix.project }}      
+        run: dotnet publish --configuration Release --no-build --output ./publish $ProjectBasePath.${{ matrix.project }}      
       
       - name: Create ZIP
         run: |
