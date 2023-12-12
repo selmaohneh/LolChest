@@ -53,7 +53,10 @@ jobs:
       - name: Deploy to AWS Lambda
         run: |
           aws lambda update-function-code --function-name ${{ matrix.project }} --zip-file fileb://./${{ matrix.project }}.zip
-          
+         
+      - name: Wait for deployment to complete
+        run: sleep 30
+    
       - name: Update function configuration
         run: |
           aws lambda update-function-configuration --function-name ${{ matrix.project }} --handler $ProjectBasePath.${{ matrix.project }}::$ProjectBasePath.${{ matrix.project }}.Function::FunctionHandler
