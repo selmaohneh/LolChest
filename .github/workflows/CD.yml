@@ -59,4 +59,4 @@ jobs:
     
       - name: Update function configuration
         run: |
-          aws lambda update-function-configuration --function-name ${{ matrix.project }} --handler $ProjectBasePath.${{ matrix.project }}::$ProjectBasePath.${{ matrix.project }}.Function::FunctionHandler --environment 'Variables={AwsAccessKey=${{ secrets.AWS_ACCESS_KEY_ID }},AwsSecretKey=${{ secrets.AWS_SECRET_ACCESS_KEY }},AwsBucketName=${{ secrets.AwsBucketName }},AwsRegion=${{ secrets.AwsRegion }},EmailAddresses=${{ secrets.EmailAddresses }}}' 
+          aws lambda update-function-configuration --function-name ${{ matrix.project }} --handler $ProjectBasePath.${{ matrix.project }}::$ProjectBasePath.${{ matrix.project }}.Function::FunctionHandler --environment 'Variables={AwsAccessKey=${{ secrets.AWS_ACCESS_KEY_ID }},AwsSecretKey=${{ secrets.AWS_SECRET_ACCESS_KEY }},AwsBucketName=${{ secrets.AwsBucketName }},AwsRegion=${{ secrets.AwsRegion }},EmailAddresses=${{ secrets.EmailAddresses }},RiotGamesApiKey=${{ secrets.RiotGamesApiKey }},PlatformRoute=${{ secrets.PlatformRoute }},RegionalRoute=${{ secrets.RegionalRoute }},SummonerNames=${{ secrets.SummonerNames }}}' 
