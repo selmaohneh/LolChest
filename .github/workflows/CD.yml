@@ -45,18 +45,22 @@ jobs:
             
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
+        if: github.ref == 'refs/heads/master'
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
       - name: Deploy to AWS Lambda
+        if: github.ref == 'refs/heads/master'
         run: |
           aws lambda update-function-code --function-name ${{ matrix.project }} --zip-file fileb://./${{ matrix.project }}.zip
          
       - name: Wait for deployment to complete
+        if: github.ref == 'refs/heads/master'
         run: sleep 30
     
       - name: Update function configuration
+        if: github.ref == 'refs/heads/master'
         run: |
           aws lambda update-function-configuration --function-name ${{ matrix.project }} --handler $ProjectBasePath.${{ matrix.project }}::$ProjectBasePath.${{ matrix.project }}.Function::FunctionHandler --environment 'Variables={AwsAccessKey=${{ secrets.AWS_ACCESS_KEY_ID }},AwsSecretKey=${{ secrets.AWS_SECRET_ACCESS_KEY }},AwsBucketName=${{ secrets.AwsBucketName }},AwsRegion=${{ secrets.AwsRegion }},EmailAddresses=${{ secrets.EmailAddresses }},RiotGamesApiKey=${{ secrets.RiotGamesApiKey }},PlatformRoute=${{ secrets.PlatformRoute }},RegionalRoute=${{ secrets.RegionalRoute }},SummonerNames=${{ secrets.SummonerNames }}}' --timeout 30
